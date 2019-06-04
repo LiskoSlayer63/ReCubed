@@ -74,7 +74,7 @@ public final class GeneralEventHandler {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onBlockBroken(BlockEvent.BreakEvent event) {
 		if(ReCubedAPI.validatePlayer(event.getPlayer()) && event.getState().getBlock() != null && Item.getItemFromBlock(event.getState().getBlock()) != null)
-			ReCubedAPI.addValueToCategory(LibCategories.BLOCKS_BROKEN, event.getPlayer().getGameProfile().getName(), Item.getItemFromBlock(event.getState().getBlock()).getUnlocalizedName(stackFromState(event.getState())) + ".name", 1);
+			ReCubedAPI.addValueToCategory(LibCategories.BLOCKS_BROKEN, event.getPlayer().getGameProfile().getName(), Item.getItemFromBlock(event.getState().getBlock()).getTranslationKey(stackFromState(event.getState())) + ".name", 1);
 	}
 
 
@@ -89,7 +89,7 @@ public final class GeneralEventHandler {
 				if(mainStack.getItem() == Items.BUCKET && event.getTarget() instanceof EntityCow)
 					ReCubedAPI.addValueToCategory(LibCategories.COWS_MILKED, event.getEntityPlayer().getGameProfile().getName(), "item.milk.name", 1);
 		
-				if(mainStack.getItem() == Items.SHEARS && event.getTarget() instanceof IShearable && ((IShearable) event.getTarget()).isShearable(mainStack, event.getTarget().worldObj, new BlockPos(event.getTarget())))
+				if(mainStack.getItem() == Items.SHEARS && event.getTarget() instanceof IShearable && ((IShearable) event.getTarget()).isShearable(mainStack, event.getTarget().world, new BlockPos(event.getTarget())))
 					ReCubedAPI.addValueToCategory(LibCategories.ANIMALS_SHEARED, event.getEntityPlayer().getGameProfile().getName(), MiscHelper.getEntityString(event.getTarget()), 1);
 
 				if(mainStack.getItem() instanceof ItemDye && event.getTarget() instanceof EntitySheep && !((EntitySheep) event.getTarget()).getSheared() && 15 - ((EntitySheep) event.getTarget()).getFleeceColor().getDyeDamage() != mainStack.getItemDamage())
@@ -100,7 +100,7 @@ public final class GeneralEventHandler {
 				if(offStack.getItem() == Items.BUCKET && event.getTarget() instanceof EntityCow)
 					ReCubedAPI.addValueToCategory(LibCategories.COWS_MILKED, event.getEntityPlayer().getGameProfile().getName(), "item.milk.name", 1);
 		
-				if(offStack.getItem() == Items.SHEARS && event.getTarget() instanceof IShearable && ((IShearable) event.getTarget()).isShearable(offStack, event.getTarget().worldObj, new BlockPos(event.getTarget())))
+				if(offStack.getItem() == Items.SHEARS && event.getTarget() instanceof IShearable && ((IShearable) event.getTarget()).isShearable(offStack, event.getTarget().world, new BlockPos(event.getTarget())))
 					ReCubedAPI.addValueToCategory(LibCategories.ANIMALS_SHEARED, event.getEntityPlayer().getGameProfile().getName(), MiscHelper.getEntityString(event.getTarget()), 1);
 
 				if(offStack.getItem() instanceof ItemDye && event.getTarget() instanceof EntitySheep && !((EntitySheep) event.getTarget()).getSheared() && 15 - ((EntitySheep) event.getTarget()).getFleeceColor().getDyeDamage() != offStack.getItemDamage())
@@ -112,8 +112,8 @@ public final class GeneralEventHandler {
 	// DAMAGE DEALT
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityTakeDamage(LivingHurtEvent event) {
-		if(event.getSource().getEntity() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
+		if(event.getSource().getTrueSource() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
 			String name = MiscHelper.getEntityString(event.getEntity());
 
 			if(ReCubedAPI.validatePlayer(player))
@@ -127,8 +127,8 @@ public final class GeneralEventHandler {
 		if(event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
 			String name = "recubed.damage." + event.getSource().getDamageType();
-			if(event.getSource().getEntity() != null)
-				name = MiscHelper.getEntityString(event.getSource().getEntity());
+			if(event.getSource().getTrueSource() != null)
+				name = MiscHelper.getEntityString(event.getSource().getTrueSource());
 
 			if(ReCubedAPI.validatePlayer(player))
 				ReCubedAPI.addValueToCategory(LibCategories.DAMAGE_TAKEN, player.getGameProfile().getName(), name, (int) Math.min(player.getHealth(), event.getAmount()));
@@ -145,18 +145,18 @@ public final class GeneralEventHandler {
 	// ITEMS DROPPED
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerTossItem(ItemTossEvent event) {
-		ItemStack stack = event.getEntityItem().getEntityItem();
+		ItemStack stack = event.getEntityItem().getItem();
 		if(ReCubedAPI.validatePlayer(event.getPlayer()))
-			ReCubedAPI.addValueToCategory(LibCategories.ITEMS_DROPPED, event.getPlayer().getGameProfile().getName(), MiscHelper.getStackName(stack), stack.stackSize);
+			ReCubedAPI.addValueToCategory(LibCategories.ITEMS_DROPPED, event.getPlayer().getGameProfile().getName(), MiscHelper.getStackName(stack), stack.getCount());
 
 	}
 
 	// ITEMS PICKED UP
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onItemPickedUp(EntityItemPickupEvent event) {
-		ItemStack stack = event.getItem().getEntityItem();
+		ItemStack stack = event.getItem().getItem();
 		if(ReCubedAPI.validatePlayer(event.getEntityPlayer()))
-			ReCubedAPI.addValueToCategory(LibCategories.ITEMS_PICKED_UP, event.getEntityPlayer().getGameProfile().getName(), MiscHelper.getStackName(stack), stack.stackSize);
+			ReCubedAPI.addValueToCategory(LibCategories.ITEMS_PICKED_UP, event.getEntityPlayer().getGameProfile().getName(), MiscHelper.getStackName(stack), stack.getCount());
 	}
 
 	// MESSAGES SENT + ITEMS SPAWNED
@@ -169,7 +169,7 @@ public final class GeneralEventHandler {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onMessageReceived(CommandEvent event) {
 		if(event.getSender() instanceof EntityPlayer && ReCubedAPI.validatePlayer((EntityPlayer) event.getSender())) {
-			ReCubedAPI.addValueToCategory(LibCategories.MESSAGES_SENT, event.getSender().getName(), "/" + event.getCommand().getCommandName(), 1);
+			ReCubedAPI.addValueToCategory(LibCategories.MESSAGES_SENT, event.getSender().getName(), "/" + event.getCommand().getName(), 1);
 
 			try {
 				if(event.getCommand() instanceof CommandGive) {
@@ -208,8 +208,8 @@ public final class GeneralEventHandler {
 	// MOBS KILLED + BOSS KILLS
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityDie(LivingDeathEvent event) {
-		if(event.getSource().getEntity() instanceof EntityPlayer && !(event.getEntity() instanceof EntityPlayer)) {
-			EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
+		if(event.getSource().getTrueSource() instanceof EntityPlayer && !(event.getEntity() instanceof EntityPlayer)) {
+			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
 			String name = MiscHelper.getEntityString(event.getEntity());
 
 			if(ReCubedAPI.validatePlayer(player))
@@ -224,11 +224,11 @@ public final class GeneralEventHandler {
 		if(event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();
 			String name = "recubed.damage." + event.getSource().getDamageType();
-			if(event.getSource().getEntity() != null)
-				name = MiscHelper.getEntityString(event.getSource().getEntity());
-			if(event.getSource().getEntity() instanceof EntityPlayer) {
-				name = ((EntityPlayer) event.getSource().getEntity()).getGameProfile().getName();
-				if(ReCubedAPI.validatePlayer((EntityPlayer) event.getSource().getEntity()))
+			if(event.getSource().getTrueSource() != null)
+				name = MiscHelper.getEntityString(event.getSource().getTrueSource());
+			if(event.getSource().getTrueSource() instanceof EntityPlayer) {
+				name = ((EntityPlayer) event.getSource().getTrueSource()).getGameProfile().getName();
+				if(ReCubedAPI.validatePlayer((EntityPlayer) event.getSource().getTrueSource()))
 					ReCubedAPI.addValueToCategory(LibCategories.PLAYER_KILLS, name, player.getGameProfile().getName(), 1);
 			}
 
@@ -302,12 +302,12 @@ public final class GeneralEventHandler {
 			ItemStack offStack = event.getEntityPlayer().getHeldItemOffhand();
 			
 			if(mainStack != null) {
-				if(mainStack.getItem() instanceof ItemRecord && event.getEntityPlayer().worldObj.getBlockState(event.getPos()).getBlock() == Blocks.JUKEBOX)
+				if(mainStack.getItem() instanceof ItemRecord && event.getEntityPlayer().world.getBlockState(event.getPos()).getBlock() == Blocks.JUKEBOX)
 					ReCubedAPI.addValueToCategory(LibCategories.DISCS_PLAYED, event.getEntityPlayer().getGameProfile().getName(), ((ItemRecord) mainStack.getItem()).getRecordNameLocal(), 1);
 			}
 			
 			if(offStack != null) {
-				if(offStack.getItem() instanceof ItemRecord && event.getEntityPlayer().worldObj.getBlockState(event.getPos()).getBlock() == Blocks.JUKEBOX)
+				if(offStack.getItem() instanceof ItemRecord && event.getEntityPlayer().world.getBlockState(event.getPos()).getBlock() == Blocks.JUKEBOX)
 					ReCubedAPI.addValueToCategory(LibCategories.DISCS_PLAYED, event.getEntityPlayer().getGameProfile().getName(), ((ItemRecord) offStack.getItem()).getRecordNameLocal(), 1);
 			}
 		}
@@ -322,18 +322,18 @@ public final class GeneralEventHandler {
 		SleepResult status = event.getResultStatus();
 		if(status == null) {
 			findStatus : {
-			if(!event.getEntityPlayer().worldObj.isRemote) {
+			if(!event.getEntityPlayer().world.isRemote) {
 				if (event.getEntityPlayer().isPlayerSleeping() || !event.getEntityPlayer().isEntityAlive()) {
 					status = SleepResult.OTHER_PROBLEM;
 					break findStatus;
 				}
 
-				if (!event.getEntityPlayer().worldObj.provider.isSurfaceWorld()) {
+				if (!event.getEntityPlayer().world.provider.isSurfaceWorld()) {
 					status = SleepResult.NOT_POSSIBLE_HERE;
 					break findStatus;
 				}
 
-				if (event.getEntityPlayer().worldObj.isDaytime()) {
+				if (event.getEntityPlayer().world.isDaytime()) {
 					status = SleepResult.NOT_POSSIBLE_NOW;
 					break findStatus;
 				}
@@ -345,7 +345,7 @@ public final class GeneralEventHandler {
 
 				double d0 = 8.0D;
 				double d1 = 5.0D;
-				List list = event.getEntityPlayer().worldObj.getEntitiesWithinAABB(EntityMob.class, new AxisAlignedBB(event.getPos().getX() - d0, event.getPos().getY() - d1, event.getPos().getZ() - d0, event.getPos().getX() + d0, event.getPos().getY() + d1, event.getPos().getZ() + d0));
+				List<EntityMob> list = event.getEntityPlayer().world.getEntitiesWithinAABB(EntityMob.class, new AxisAlignedBB(event.getPos().getX() - d0, event.getPos().getY() - d1, event.getPos().getZ() - d0, event.getPos().getX() + d0, event.getPos().getY() + d1, event.getPos().getZ() + d0));
 
 				if (!list.isEmpty()) {
 					status = SleepResult.NOT_SAFE;

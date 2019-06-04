@@ -33,7 +33,7 @@ public class GuiCategoryList extends GuiScreen {
 	public int guiHeight = 200;
 	public int x, y;
 
-	List<Integer> indexes = new ArrayList();
+	List<Integer> indexes = new ArrayList<Integer>();
 
 	@Override
 	public void initGui() {

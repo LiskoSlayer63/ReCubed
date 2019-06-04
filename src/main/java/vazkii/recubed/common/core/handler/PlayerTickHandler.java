@@ -18,7 +18,7 @@ import vazkii.recubed.common.core.helper.PlayerLastTickData;
 
 public final class PlayerTickHandler {
 
-	public static Map<String, PlayerLastTickData> playerData = new HashMap();
+	public static Map<String, PlayerLastTickData> playerData = new HashMap<String, PlayerLastTickData>();
 
 	public static void playerTicked(EntityPlayer player) {
 		String name = player.getGameProfile().getName();

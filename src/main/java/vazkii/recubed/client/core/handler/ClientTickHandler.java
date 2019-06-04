@@ -25,7 +25,7 @@ public class ClientTickHandler {
 	@SubscribeEvent
 	public void clientTickEnd(ClientTickEvent event) {
 		if(event.phase == Phase.END) {
-			World world = Minecraft.getMinecraft().theWorld;
+			World world = Minecraft.getMinecraft().world;
 			if(world == null)
 				ClientData.categories.clear();
 		}

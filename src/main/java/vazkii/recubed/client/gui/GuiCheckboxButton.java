@@ -12,17 +12,18 @@ package vazkii.recubed.client.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import vazkii.recubed.client.core.helper.SafeCallable;
 import vazkii.recubed.client.lib.LibResources;
+import vazkii.recubed.common.lib.LibMisc;
 
 public class GuiCheckboxButton extends GuiButton {
 
-	static ResourceLocation check = new ResourceLocation(LibResources.RESOURCE_CHECK);
+	static ResourceLocation check = new ResourceLocation(LibMisc.MOD_ID, LibResources.RESOURCE_CHECK);
 	SafeCallable<Boolean> isChecked;
 	String text;
 
@@ -33,25 +34,26 @@ public class GuiCheckboxButton extends GuiButton {
 	}
 
 	@Override
-	public void drawButton(Minecraft par1Minecraft, int par2, int par3) {
-		super.drawButton(par1Minecraft, par2, par3);
-
+	public void drawButton(Minecraft mc, int mouseX, int  mouseY, float partialTicks) {
+		super.drawButton(mc, mouseX, mouseY, partialTicks);
+		
 		if(isChecked.call()) {
-			par1Minecraft.renderEngine.bindTexture(check);
-			int x = xPosition + 2;
-			int y = yPosition + 2;
-
+			mc.renderEngine.bindTexture(check);
+			
+			int xPos = x + 2;
+			int yPos = y + 2;
+			
 			zLevel += 1;
-			VertexBuffer wr = Tessellator.getInstance().getBuffer();
+			BufferBuilder wr = Tessellator.getInstance().getBuffer();
 	        wr.begin(7, DefaultVertexFormats.POSITION_TEX);
-			wr.pos(x, y + 16, zLevel).tex(0, 1).endVertex();
-			wr.pos(x + 16, y + 16, zLevel).tex(1, 1).endVertex();
-			wr.pos(x + 16, y, zLevel).tex(1, 0).endVertex();
-			wr.pos(x, y, zLevel).tex(0, 0).endVertex();
+			wr.pos(xPos, yPos + 16, zLevel).tex(0, 1).endVertex();
+			wr.pos(xPos + 16, yPos + 16, zLevel).tex(1, 1).endVertex();
+			wr.pos(xPos + 16, yPos, zLevel).tex(1, 0).endVertex();
+			wr.pos(xPos, yPos, zLevel).tex(0, 0).endVertex();
 			Tessellator.getInstance().draw();
 			zLevel -= 1;
 		}
 
-		par1Minecraft.fontRendererObj.drawStringWithShadow(I18n.format(text), xPosition + 25, yPosition + 7, 0xFFFFFF);
+		mc.fontRenderer.drawStringWithShadow(I18n.format(text), x + 25, y + 7, 0xFFFFFF);
 	}
 }

@@ -85,7 +85,7 @@ public final class ClientCacheHandler {
 	public static void findCompoundAndLoad() {
 		NBTTagCompound cmp = getCacheCompound();
 
-		if(cmp.hasNoTags()) {
+		if(cmp.isEmpty()) {
 			Minecraft.getMinecraft();
 			hudPosX = 100;
 			hudPosY = 98;

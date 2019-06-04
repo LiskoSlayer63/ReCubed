@@ -32,7 +32,7 @@ public class CacheHelper {
 	public static File getCacheFile(String loc_, String name, boolean create) throws IOException{
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 
-		WorldServer world = server.worldServers[0];
+		WorldServer world = server.worlds[0];
 		File loc = world.getChunkSaveLocation();
 		File cacheFile = new File(loc, loc_.isEmpty() ? name : loc_);
 		if(!loc_.isEmpty()) {

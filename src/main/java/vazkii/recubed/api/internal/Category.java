@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public final class Category {
 
-	public final HashMap<String, PlayerCategoryData> playerData = new HashMap();
+	public final HashMap<String, PlayerCategoryData> playerData = new HashMap<String, PlayerCategoryData>();
 	public final String name;
 
 	public boolean isFrozen = false;

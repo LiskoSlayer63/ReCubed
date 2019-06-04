@@ -23,7 +23,7 @@ public class GuiCategorySlot extends GuiScrollingList {
 	GuiCategoryList parent;
 
 	public GuiCategorySlot(GuiCategoryList parent) {
-		super(Minecraft.getMinecraft(), 125, parent.guiHeight, parent.y + 16, parent.y + parent.guiHeight - 16, parent.x, 16);
+		super(Minecraft.getMinecraft(), 125, parent.guiHeight, parent.y + 16, parent.y + parent.guiHeight - 16, parent.x, 16, Minecraft.getMinecraft().currentScreen.width, Minecraft.getMinecraft().currentScreen.height);
 		this.parent = parent;
 	}
 
@@ -59,9 +59,9 @@ public class GuiCategorySlot extends GuiScrollingList {
 		Category category = ClientData.categories.get(categoryName);
 
 		int color = 0xFFFFFF;
-		if(category.playerData.get(mc.thePlayer.getGameProfile().getName()).getTotalValue() == 0)
+		if(category.playerData.get(mc.player.getGameProfile().getName()).getTotalValue() == 0)
 			color = 0x777777;
 
-		mc.fontRendererObj.drawStringWithShadow(I18n.format(categoryName), j - 110, k + 2, color);
+		mc.fontRenderer.drawStringWithShadow(I18n.format(categoryName), j - 110, k + 2, color);
 	}
 }

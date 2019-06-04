@@ -24,19 +24,19 @@ import vazkii.recubed.common.core.helper.MiscHelper;
 public class CommandFreeze extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "recubed-freeze";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender icommandsender) {
+	public String getUsage(ICommandSender icommandsender) {
 		return "recubed-freeze <frozen(true/false)>";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender icommandsender, String[] astring) throws CommandException {
 		if(astring.length != 1)
-			throw new WrongUsageException(getCommandUsage(icommandsender), (Object[]) astring);
+			throw new WrongUsageException(getUsage(icommandsender), (Object[]) astring);
 
 		if(icommandsender instanceof EntityPlayer && !MiscHelper.isPlayerAllowedToUseCommands(icommandsender.getName()))
 			throw new CommandException("recubed.commands.no_perms");
@@ -44,7 +44,7 @@ public class CommandFreeze extends CommandBase {
 		boolean frozen = Boolean.parseBoolean(astring[0]);
 		for(Category category : ServerData.categories.values())
 			category.isFrozen = frozen;
-		icommandsender.addChatMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
+		icommandsender.sendMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
 	}
 
 	@Override

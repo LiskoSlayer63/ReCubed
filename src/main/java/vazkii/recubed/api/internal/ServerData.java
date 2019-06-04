@@ -19,7 +19,7 @@ import vazkii.recubed.api.ReCubedAPI;
 
 public final class ServerData {
 
-	public static final HashMap<String, Category> categories = new HashMap();
+	public static final HashMap<String, Category> categories = new HashMap<String, Category>();
 
 	public static void reset() {
 		categories.clear();
@@ -27,8 +27,8 @@ public final class ServerData {
 
 	public static void wipe() {
 		Category category = categories.values().iterator().next();
-		List<String> playerData = new ArrayList();
-		playerData = new ArrayList(category.playerData.keySet());
+		List<String> playerData = new ArrayList<String>();
+		playerData = new ArrayList<String>(category.playerData.keySet());
 		reset();
 		init();
 		for(Category category_ : categories.values())

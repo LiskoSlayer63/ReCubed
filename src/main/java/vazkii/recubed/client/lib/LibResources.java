@@ -16,8 +16,8 @@ public final class LibResources {
 
 	public static final String[] LANGS = new String[] { "en_US.lang", "de_DE.lang", "ru_RU.lang" };
 
-	public static final String RESOURCE_COGWHEEL = "recubed:textures/cogwheel.png";
-	public static final String RESOURCE_CHECK = "recubed:textures/check.png";
-	public static final String RESOURCE_HUD_BAR = "recubed:textures/hudBar.png";
+	public static final String RESOURCE_COGWHEEL = "textures/gui/cogwheel.png";
+	public static final String RESOURCE_CHECK = "textures/gui/check.png";
+	public static final String RESOURCE_HUD_BAR = "textures/gui/hudbar.png";
 
 }

@@ -36,7 +36,7 @@ public strictfp final class PieChartRender {
 	public boolean clickable;
 	public int totalVal;
 
-	public Collection<Entry> entries = new TreeSet();
+	public Collection<Entry> entries = new TreeSet<Entry>();
 
 	public static class Entry implements Comparable<Entry> {
 		int val;
@@ -105,7 +105,7 @@ public strictfp final class PieChartRender {
 	}
 
 	private void truncateSmallValues(int totalValue) {
-		List<Entry> sortedEntries = new ArrayList(entries);
+		List<Entry> sortedEntries = new ArrayList<Entry>(entries);
 
 		Collections.sort(sortedEntries, new Comparator<Entry>() {
 
@@ -116,7 +116,7 @@ public strictfp final class PieChartRender {
 
 		});
 
-		List<Entry> newEntries = new ArrayList();
+		List<Entry> newEntries = new ArrayList<Entry>();
 		float totalAngle = 0;
 		int totalVal = 0;
 		int size = 9;
@@ -238,7 +238,7 @@ public strictfp final class PieChartRender {
 		GL11.glEnd();
 
 		if(tooltip != null) {
-			List<String> tooltipList = new ArrayList(Arrays.asList(I18n.format(tooltip.name), TextFormatting.GRAY + "" + tooltip.val + " (" + Math.round(tooltip.angle / 3.6F * 100D) / 100D + "%)"));
+			List<String> tooltipList = new ArrayList<String>(Arrays.asList(I18n.format(tooltip.name), TextFormatting.GRAY + "" + tooltip.val + " (" + Math.round(tooltip.angle / 3.6F * 100D) / 100D + "%)"));
 			if(Minecraft.getMinecraft().gameSettings.advancedItemTooltips)
 				tooltipList.add(TextFormatting.GRAY + "" + TextFormatting.ITALIC + tooltip.name);
 			RenderHelper.renderTooltip(mx, my, tooltipList);

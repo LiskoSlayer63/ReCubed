@@ -24,7 +24,7 @@ public class GuiStatSelector extends GuiStatViewer {
 	public void drawScreen(int par1, int par2, float par3) {
 		super.drawScreen(par1, par2, par3);
 
-		drawCenteredString(fontRendererObj, TextFormatting.GOLD + I18n.format("recubed.misc.enter"), x + guiWidth / 2, y + guiHeight + 5, 0xFFFFFF);
+		drawCenteredString(fontRenderer, TextFormatting.GOLD + I18n.format("recubed.misc.enter"), x + guiWidth / 2, y + guiHeight + 5, 0xFFFFFF);
 	}
 
 	@Override

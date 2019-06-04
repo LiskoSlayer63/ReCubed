@@ -25,19 +25,19 @@ import vazkii.recubed.common.core.helper.MiscHelper;
 public class CommandWipePlayer extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "recubed-wipeplayer";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender icommandsender) {
+	public String getUsage(ICommandSender icommandsender) {
 		return "recubed-wipeplayer <username>";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender icommandsender, String[] astring) throws CommandException {
 		if(astring.length != 1)
-			throw new WrongUsageException(getCommandUsage(icommandsender), (Object[]) astring);
+			throw new WrongUsageException(getUsage(icommandsender), (Object[]) astring);
 
 		if(icommandsender instanceof EntityPlayer && !MiscHelper.isPlayerAllowedToUseCommands(icommandsender.getName()))
 			throw new CommandException("recubed.commands.no_perms");
@@ -47,7 +47,7 @@ public class CommandWipePlayer extends CommandBase {
 			category.playerData.put(astring[0], new PlayerCategoryData(astring[0]));
 		}
 
-		icommandsender.addChatMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
+		icommandsender.sendMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
 	}
 
 	@Override

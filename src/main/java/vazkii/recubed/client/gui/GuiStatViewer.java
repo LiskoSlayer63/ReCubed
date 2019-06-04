@@ -42,7 +42,7 @@ public class GuiStatViewer extends GuiCategoryList {
 		buttonList.add(new GuiButton(1, x + 310, y + 170, 80, 20, I18n.format("recubed.misc.your_stats")));
 
 		String search = I18n.format("recubed.misc.search");
-		searchBar = new GuiTextField(0, fontRendererObj, x + fontRendererObj.getStringWidth(search) + 5, y - 20, 150, 18);
+		searchBar = new GuiTextField(0, fontRenderer, x + fontRenderer.getStringWidth(search) + 5, y - 20, 150, 18);
 		searchBar.setFocused(true);
 		searchBar.setCanLoseFocus(false);
 		searchBar.setMaxStringLength(32);
@@ -59,45 +59,45 @@ public class GuiStatViewer extends GuiCategoryList {
 		hoveredEntry = null;
 		PieChartRender pie = category instanceof Category ? PieChartRender.fromCategory((Category) category) : PieChartRender.fromPlayerData((PlayerCategoryData) category);
 		if(pie == null)
-			drawCenteredString(fontRendererObj, I18n.format("recubed.no_data"), x + 250, y + 95, 0xFF7777);
+			drawCenteredString(fontRenderer, I18n.format("recubed.no_data"), x + 250, y + 95, 0xFF7777);
 		else{
 			hoveredEntry = pie.renderChart(80, x + 250, y + 100, par1, par2);
 			String text = I18n.format("recubed.misc.total", pie.totalVal);
 			if(fromCurrentCategoryInt().isFrozen)
 				text = text + TextFormatting.AQUA + I18n.format("recubed.misc.frozen_suffix");
 
-			fontRendererObj.drawStringWithShadow(text, x + 134, y + 188, 0xFFFFFF);
+			fontRenderer.drawStringWithShadow(text, x + 134, y + 188, 0xFFFFFF);
 		}
 
 		String displayString = I18n.format(fromCurrentCategoryInt().name);
-		int width = fontRendererObj.getStringWidth(displayString);
+		int width = fontRenderer.getStringWidth(displayString);
 		int xPos = x + 250 - width / 2;
 
 		if(category instanceof PlayerCategoryData) {
 			displayString = displayString + " - ";
-			width = fontRendererObj.getStringWidth(displayString);
+			width = fontRenderer.getStringWidth(displayString);
 			xPos = x + 250 - width / 2;
 
 			String name = ((PlayerCategoryData) category).name;
-			xPos -= fontRendererObj.getStringWidth(name) / 2;
+			xPos -= fontRenderer.getStringWidth(name) / 2;
 			int color = MiscHelper.generateColorFromString(name);
-			fontRendererObj.drawStringWithShadow(name, xPos + width, y + 5, color);
+			fontRenderer.drawStringWithShadow(name, xPos + width, y + 5, color);
 		}
-		fontRendererObj.drawStringWithShadow(displayString, xPos, y + 5, 0xFFFFFF);
+		fontRenderer.drawStringWithShadow(displayString, xPos, y + 5, 0xFFFFFF);
 
 		searchBar.drawTextBox();
 
 		String search = I18n.format("recubed.misc.search");
-		int length = fontRendererObj.getStringWidth(search);
+		int length = fontRenderer.getStringWidth(search);
 		String text = searchBar.getText();
 
 		if(text.isEmpty()) {
 			GL11.glEnable(GL11.GL_BLEND);
-			fontRendererObj.drawStringWithShadow(I18n.format("recubed.misc.type_to_search"), x + length + 10, y- 15, 0x66FFFFFF);
+			fontRenderer.drawStringWithShadow(I18n.format("recubed.misc.type_to_search"), x + length + 10, y- 15, 0x66FFFFFF);
 			GL11.glDisable(GL11.GL_BLEND);
 			visit.visible = false;
 		} else {
-			fontRendererObj.drawStringWithShadow(search, x, y - 15, 0xFFFFFF);
+			fontRenderer.drawStringWithShadow(search, x, y - 15, 0xFFFFFF);
 			Category currentCategory = fromCurrentCategoryInt();
 
 			boolean found = false;
@@ -128,14 +128,14 @@ public class GuiStatViewer extends GuiCategoryList {
 				drawRect(x + length + 137, y - 20, x + length + 155, y - 2, color);
 				float percentage = Math.round((float) value / (float) total * 100F * 100F) / 100F;
 
-				fontRendererObj.drawStringWithShadow(value + " (" + percentage + "%)", x + length + 160, y - 15, 0xFFFFFF);
+				fontRenderer.drawStringWithShadow(value + " (" + percentage + "%)", x + length + 160, y - 15, 0xFFFFFF);
 				visit.visible = category instanceof Category;
 
 				if(mc.gameSettings.advancedItemTooltips)
-					fontRendererObj.drawStringWithShadow(TextFormatting.ITALIC + unlocalized, x + length + 10, y - 32, 0xFFFFFF);
+					fontRenderer.drawStringWithShadow(TextFormatting.ITALIC + unlocalized, x + length + 10, y - 32, 0xFFFFFF);
 
 			} else {
-				fontRendererObj.drawStringWithShadow("0 (0%)", x + length + 160, y - 15, 0xFFFFFF);
+				fontRenderer.drawStringWithShadow("0 (0%)", x + length + 160, y - 15, 0xFFFFFF);
 				visit.visible = false;
 			}
 		}
@@ -180,7 +180,7 @@ public class GuiStatViewer extends GuiCategoryList {
 			return;
 		}
 		case 1 : {
-			this.category = category.playerData.get(mc.thePlayer.getGameProfile().getName());
+			this.category = category.playerData.get(mc.player.getGameProfile().getName());
 			clearSearchBar();
 			return;
 		}

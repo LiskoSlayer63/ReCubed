@@ -27,19 +27,19 @@ import vazkii.recubed.common.lib.LibMisc;
 public class CommandDelBackup extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "recubed-delbackup";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender icommandsender) {
+	public String getUsage(ICommandSender icommandsender) {
 		return "recubed-delbackup <name>";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender icommandsender, String[] astring) throws CommandException {
 		if(astring.length != 1)
-			throw new WrongUsageException(getCommandUsage(icommandsender), (Object[]) astring);
+			throw new WrongUsageException(getUsage(icommandsender), (Object[]) astring);
 
 		if(icommandsender instanceof EntityPlayer && !MiscHelper.isPlayerAllowedToUseCommands(icommandsender.getName()))
 			throw new CommandException("recubed.commands.no_perms");
@@ -52,7 +52,7 @@ public class CommandDelBackup extends CommandBase {
 				throw new CommandException("recubed.commands.no_backup");
 
 			file.delete();
-			icommandsender.addChatMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
+			icommandsender.sendMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
 		} catch (IOException e) {
 			throw new CommandException(e.getMessage(), (Object[]) e.getStackTrace());
 		}

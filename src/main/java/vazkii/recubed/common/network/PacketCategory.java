@@ -33,11 +33,11 @@ public class PacketCategory implements IMessage, IMessageHandler<PacketCategory,
 		NBTTagCompound cmp = new NBTTagCompound();
 		category.writeToNBT(cmp);
 		packet.writeString(name);
-		packet.writeNBTTagCompoundToBuffer(cmp);
+		packet.writeCompoundTag(cmp);
 	}
 
 	public static Collection<PacketCategory> allCategoryPackets() {
-		Collection<PacketCategory> packets = new ArrayList();
+		Collection<PacketCategory> packets = new ArrayList<PacketCategory>();
 		for(String s : ServerData.categories.keySet())
 			packets.add(new PacketCategory(ServerData.categories.get(s)));
 
@@ -48,9 +48,9 @@ public class PacketCategory implements IMessage, IMessageHandler<PacketCategory,
 	public void fromBytes(ByteBuf buffer) {
 		PacketBuffer packet = new PacketBuffer(buffer);
 		try {
-			name = packet.readStringFromBuffer(32767);
+			name = packet.readString(32767);
 			category = new Category(name);
-			category.loadFromNBT(packet.readNBTTagCompoundFromBuffer());
+			category.loadFromNBT(packet.readCompoundTag());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

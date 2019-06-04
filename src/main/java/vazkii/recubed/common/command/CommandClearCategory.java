@@ -26,19 +26,19 @@ import vazkii.recubed.common.core.helper.MiscHelper;
 public class CommandClearCategory extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "recubed-clrcategory";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender icommandsender) {
+	public String getUsage(ICommandSender icommandsender) {
 		return "recubed-clrcategory <category>";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender icommandsender, String[] astring)  throws CommandException  {
 		if(astring.length != 1)
-			throw new WrongUsageException(getCommandUsage(icommandsender), (Object[]) astring);
+			throw new WrongUsageException(getUsage(icommandsender), (Object[]) astring);
 
 		if(icommandsender instanceof EntityPlayer && !MiscHelper.isPlayerAllowedToUseCommands(icommandsender.getName()))
 			throw new CommandException("recubed.commands.no_perms");
@@ -49,7 +49,7 @@ public class CommandClearCategory extends CommandBase {
 
 		for(String s : category.playerData.keySet())
 			category.playerData.put(s, new PlayerCategoryData(s));
-		icommandsender.addChatMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
+		icommandsender.sendMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
 	}
 
 	@Override

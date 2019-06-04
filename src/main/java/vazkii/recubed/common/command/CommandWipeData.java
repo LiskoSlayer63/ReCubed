@@ -22,12 +22,12 @@ import vazkii.recubed.common.core.helper.MiscHelper;
 public class CommandWipeData extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "recubed-wipedata";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender icommandsender) {
+	public String getUsage(ICommandSender icommandsender) {
 		return "recubed-wipedata";
 	}
 
@@ -37,7 +37,7 @@ public class CommandWipeData extends CommandBase {
 			throw new CommandException("recubed.commands.no_perms");
 
 		ServerData.wipe();
-		icommandsender.addChatMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
+		icommandsender.sendMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
 	}
 
 	@Override

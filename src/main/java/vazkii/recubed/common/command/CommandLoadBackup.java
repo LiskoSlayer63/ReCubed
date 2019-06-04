@@ -29,19 +29,19 @@ import vazkii.recubed.common.lib.LibMisc;
 public class CommandLoadBackup extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "recubed-loadbackup";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender icommandsender) {
+	public String getUsage(ICommandSender icommandsender) {
 		return "recubed-loadbackup <name>";
 	}
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender icommandsender, String[] astring) throws CommandException {
 		if(astring.length != 1)
-			throw new WrongUsageException(getCommandUsage(icommandsender), (Object[]) astring);
+			throw new WrongUsageException(getUsage(icommandsender), (Object[]) astring);
 
 		if(icommandsender instanceof EntityPlayer && !MiscHelper.isPlayerAllowedToUseCommands(icommandsender.getName()))
 			throw new CommandException("recubed.commands.no_perms");
@@ -55,7 +55,7 @@ public class CommandLoadBackup extends CommandBase {
 
 			NBTTagCompound cmp = CacheHelper.getCacheCompound(file);
 			ServerData.loadFromNBT(cmp);
-			icommandsender.addChatMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
+			icommandsender.sendMessage(new TextComponentTranslation("recubed.commands.command_sucessful"));
 		} catch (IOException e) {
 			throw new CommandException(e.getMessage(), (Object[]) e.getStackTrace());
 		}

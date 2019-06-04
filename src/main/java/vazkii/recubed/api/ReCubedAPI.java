@@ -23,8 +23,8 @@ import vazkii.recubed.api.internal.ServerData;
 
 public final class ReCubedAPI {
 
-	public static final List<String> categories = new ArrayList();
-	public static final Map<String, String> shortTerms = new HashMap();
+	public static final List<String> categories = new ArrayList<String>();
+	public static final Map<String, String> shortTerms = new HashMap<String, String>();
 
 	public static void registerCategory(String category, String shortTerm) {
 		if(!categories.contains(category)) {
@@ -59,7 +59,7 @@ public final class ReCubedAPI {
 	}
 
 	public static boolean validatePlayer(EntityPlayer player) {
-		return !player.worldObj.isRemote && !(player instanceof FakePlayer);
+		return !player.world.isRemote && !(player instanceof FakePlayer);
 	}
 
 }

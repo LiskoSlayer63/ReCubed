@@ -19,7 +19,7 @@ import net.minecraft.nbt.NBTTagInt;
 
 public final class PlayerCategoryData {
 
-	public final HashMap<String, Integer> stats = new HashMap();
+	public final HashMap<String, Integer> stats = new HashMap<String, Integer>();
 	public final String name;
 
 	public PlayerCategoryData(String name) {

@@ -41,7 +41,7 @@ public final class MiscHelper {
 	}
 
 	public static <K, V> TreeMap<K, V> sortMap(Map<K, V> map, Comparator<K> comparator) {
-		TreeMap<K, V> treemap = new TreeMap(comparator);
+		TreeMap<K, V> treemap = new TreeMap<K, V>(comparator);
 		for(K key : map.keySet())
 			treemap.put(key, map.get(key));
 

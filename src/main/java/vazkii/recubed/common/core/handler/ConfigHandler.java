@@ -27,7 +27,7 @@ public final class ConfigHandler {
 
 	public static int packetInterval = 40;
 	public static boolean useCogwheel = true;
-	public static List<String> commandPlayers = new ArrayList();
+	public static List<String> commandPlayers = new ArrayList<String>();
 
 	public static void load(File file) {
 		config = new Configuration(file);

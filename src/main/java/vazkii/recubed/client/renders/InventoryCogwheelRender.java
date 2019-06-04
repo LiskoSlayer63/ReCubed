@@ -18,9 +18,9 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -29,10 +29,11 @@ import net.minecraft.util.text.TextFormatting;
 import vazkii.recubed.client.core.helper.TransientScaledResolution;
 import vazkii.recubed.client.gui.GuiReCubedMenu;
 import vazkii.recubed.client.lib.LibResources;
+import vazkii.recubed.common.lib.LibMisc;
 
 public final class InventoryCogwheelRender {
 
-	static ResourceLocation cogwheel = new ResourceLocation(LibResources.RESOURCE_COGWHEEL);
+	static ResourceLocation cogwheel = new ResourceLocation(LibMisc.MOD_ID, LibResources.RESOURCE_COGWHEEL);
 
 	public static void renderCogwheel() {
 		Minecraft mc = Minecraft.getMinecraft();
@@ -45,7 +46,7 @@ public final class InventoryCogwheelRender {
 
 			if(creative) {
 				GuiContainerCreative container = (GuiContainerCreative) mc.currentScreen;
-				if(container.getSelectedTabIndex() == CreativeTabs.INVENTORY.getTabIndex()) {
+				if(container.getSelectedTabIndex() == CreativeTabs.INVENTORY.getIndex()) {
 					x -= 7;
 					y += 13;
 				} else return;
@@ -58,7 +59,7 @@ public final class InventoryCogwheelRender {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 			mc.renderEngine.bindTexture(cogwheel);
-			VertexBuffer wr = Tessellator.getInstance().getBuffer();
+			BufferBuilder wr = Tessellator.getInstance().getBuffer();
 
 			wr.begin(7, DefaultVertexFormats.POSITION_TEX);
 			wr.pos(x * 2, y * 2 + 16, 0).tex(0, 1).endVertex();

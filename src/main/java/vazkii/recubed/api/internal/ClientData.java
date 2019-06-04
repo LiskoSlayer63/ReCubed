@@ -18,6 +18,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ClientData {
 
-	public static final HashMap<String, Category> categories = new HashMap();
+	public static final HashMap<String, Category> categories = new HashMap<String, Category>();
 
 }

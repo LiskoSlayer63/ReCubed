@@ -15,14 +15,8 @@ import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemPotion;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionUtils;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vazkii.recubed.api.ReCubedAPI;
 import vazkii.recubed.common.lib.LibCategories;
 
@@ -31,7 +25,7 @@ public final class PlayerLastTickData {
 	int xp;
 	int level;
 	boolean riding;
-	List<Potion> potionEffects = new ArrayList();
+	List<Potion> potionEffects = new ArrayList<Potion>();
 
 	public void tickPlayer(EntityPlayer player) {
 		if(!ReCubedAPI.validatePlayer(player))

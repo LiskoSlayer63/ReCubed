@@ -24,7 +24,7 @@ public final class WorldSaveHandler {
 	public void onWorldSave(WorldEvent.Save event) {
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 
-		if(event.getWorld() == server.worldServers[0]) {
+		if(event.getWorld() == server.worlds[0]) {
 			CacheHelper.findCompoundAndWrite();
 
 			for(PacketCategory packet : PacketCategory.allCategoryPackets())

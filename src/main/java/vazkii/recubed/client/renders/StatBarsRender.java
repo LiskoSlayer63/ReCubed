@@ -22,8 +22,8 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
@@ -33,12 +33,13 @@ import vazkii.recubed.client.core.handler.ClientCacheHandler;
 import vazkii.recubed.client.core.helper.RenderHelper;
 import vazkii.recubed.client.lib.LibResources;
 import vazkii.recubed.common.core.helper.MiscHelper;
+import vazkii.recubed.common.lib.LibMisc;
 
 public final class StatBarsRender {
 
-	static ResourceLocation hudBar = new ResourceLocation(LibResources.RESOURCE_HUD_BAR);
+	static ResourceLocation hudBar = new ResourceLocation(LibMisc.MOD_ID, LibResources.RESOURCE_HUD_BAR);
 
-	public Collection<Entry> entries = new TreeSet();
+	public Collection<Entry> entries = new TreeSet<Entry>();
 	public final boolean isCategory;
 	final String displayName;
 	Object data;
@@ -116,7 +117,7 @@ public final class StatBarsRender {
 	}
 
 	private void sortValues(int totalValue) {
-		List<Entry> sortedEntries = new ArrayList(entries);
+		List<Entry> sortedEntries = new ArrayList<Entry>(entries);
 
 		Collections.sort(sortedEntries, new Comparator<Entry>() {
 
@@ -127,7 +128,7 @@ public final class StatBarsRender {
 
 		});
 
-		List<Entry> newEntries = new ArrayList();
+		List<Entry> newEntries = new ArrayList<Entry>();
 
 		int totalVal = 0;
 		float totalPercentage = 0F;
@@ -135,7 +136,7 @@ public final class StatBarsRender {
 		int i = 0;
 		boolean addedClientPlayer = false;
 
-		String name = Minecraft.getMinecraft().thePlayer.getGameProfile().getName();
+		String name = Minecraft.getMinecraft().player.getGameProfile().getName();
 		int clientPos = 0;
 		for(Entry entry : sortedEntries) {
 			if(entry.name.equals(name)) {
@@ -216,8 +217,7 @@ public final class StatBarsRender {
 		mc.renderEngine.bindTexture(hudBar);
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		
-		float f = 1F;	
-		VertexBuffer wr = Tessellator.getInstance().getBuffer();
+		BufferBuilder wr = Tessellator.getInstance().getBuffer();
 		wr.begin(7, DefaultVertexFormats.POSITION_TEX);
 		wr.pos(x * 2, (y + 8) * 2, 0).tex(0, 1).endVertex();
 		wr.pos((x + width) * 2, (y + 8) * 2, 0).tex(1, 1).endVertex();
@@ -233,22 +233,22 @@ public final class StatBarsRender {
 		GL11.glPopMatrix();
 		Gui.drawRect(x * 2, (y + height) * 2 - 1, (x + width) * 2, (y + height) * 2, 0xFF000000);
 
-		boolean unicode = mc.fontRendererObj.getUnicodeFlag();
-		mc.fontRendererObj.setUnicodeFlag(!ClientCacheHandler.useVanillaFont);
+		boolean unicode = mc.fontRenderer.getUnicodeFlag();
+		mc.fontRenderer.setUnicodeFlag(!ClientCacheHandler.useVanillaFont);
 
-		mc.fontRendererObj.drawStringWithShadow(displayName, (x + 4) * 2, (y + 2) * 2, 0xFFFFFF);
+		mc.fontRenderer.drawStringWithShadow(displayName, (x + 4) * 2, (y + 2) * 2, 0xFFFFFF);
 		yp = 9;
 		for(Entry entry : entries) {
 			String posStr = "#" + entry.pos + " - ";
 			String valAndPercentageStr = ": " + entry.val + " (" + entry.percentage + "%)";
-			int remainingLenght = width * 2 - 4 - (mc.fontRendererObj.getStringWidth(posStr) + mc.fontRendererObj.getStringWidth(valAndPercentageStr));
+			int remainingLenght = width * 2 - 4 - (mc.fontRenderer.getStringWidth(posStr) + mc.fontRenderer.getStringWidth(valAndPercentageStr));
 
 			String name = I18n.format(entry.name);
-			String nameStr = mc.fontRendererObj.trimStringToWidth(I18n.format(entry.name), remainingLenght);
+			String nameStr = mc.fontRenderer.trimStringToWidth(I18n.format(entry.name), remainingLenght);
 			if(!name.equals(nameStr)) {
 				String elipsis = "(...)";
-				remainingLenght -= mc.fontRendererObj.getStringWidth(elipsis);
-				nameStr = mc.fontRendererObj.trimStringToWidth(nameStr, remainingLenght);
+				remainingLenght -= mc.fontRenderer.getStringWidth(elipsis);
+				nameStr = mc.fontRenderer.trimStringToWidth(nameStr, remainingLenght);
 				nameStr = nameStr + elipsis;
 			}
 
@@ -261,12 +261,12 @@ public final class StatBarsRender {
 				colorRGB = color1.getRGB();
 			}
 
-			mc.fontRendererObj.drawStringWithShadow(s1, (x + 2) * 2, (y + yp) * 2, colorRGB);
+			mc.fontRenderer.drawStringWithShadow(s1, (x + 2) * 2, (y + yp) * 2, colorRGB);
 
 			yp += 6;
 		}
 
-		mc.fontRendererObj.setUnicodeFlag(unicode);
+		mc.fontRenderer.setUnicodeFlag(unicode);
 
 		GL11.glScalef(2F, 2F, 2F);
 		GL11.glPopMatrix();

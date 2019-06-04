@@ -14,6 +14,9 @@ Thumbs.db
 /.classpath
 /.project
 /bin
+/eclipse
+/run_server
+/run_client
 
 ## intellij
 /out
@@ -22,6 +25,8 @@ Thumbs.db
 
 ## Private Stuffs
 /private.properties
+*.launch
+openCmd.bat
 
 ## Jars
 *.jar
